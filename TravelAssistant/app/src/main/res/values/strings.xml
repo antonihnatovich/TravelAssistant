@@ -5,8 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="email_contact">tf.2.98@mail.ru</string>
+    <string name="country_representation_image_text">country image</string>
+    <string name="title_activity_main2">Travel Assistant</string>
 </resources>

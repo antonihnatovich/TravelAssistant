@@ -4,35 +4,36 @@
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:weightSum="5"
-    android:layout_height="wrap_content">
+    android:layout_height="72dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground">
 
     <android.support.v7.widget.AppCompatImageView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
         android:id="@+id/country_image"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:srcCompat = "@drawable/ic_gbr"
-        android:scaleType="fitXY"
-        android:contentDescription="country image"/>
+        android:scaleType="centerInside"
+        android:contentDescription="@string/country_representation_image_text"/>
 
     <RelativeLayout
         android:layout_weight="4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp">
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp">
         <TextView
             android:id="@+id/country_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="United Kingdom of Great Britain and Northern Ireland"
             android:textSize = "16sp"
             />
         <TextView
@@ -43,7 +44,6 @@
             android:layout_marginEnd="20dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="London"
             android:textSize="14sp"/>
     </RelativeLayout>
 

@@ -29,7 +29,7 @@ public class RepresentationFragment extends Fragment {
     private static final String RESTORE_KEY = "countries";
 
     private ArrayList<Country> mListCountries = new ArrayList<>();
-    private CountriesAdapter mAdapter = new CountriesAdapter();
+    private CountriesAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +43,7 @@ public class RepresentationFragment extends Fragment {
 
         setRetainInstance(true);
 
+        mAdapter = new CountriesAdapter(getActivity());
         RecyclerView mRecyclerView; mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_fragment);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
