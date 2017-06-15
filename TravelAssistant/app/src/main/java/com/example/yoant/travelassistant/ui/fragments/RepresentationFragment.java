@@ -2,6 +2,7 @@ package com.example.yoant.travelassistant.ui.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -35,15 +36,13 @@ public class RepresentationFragment extends Fragment {
 
     private static final String RESTORE_KEY = "countries";
     private static final String EARTH_PART = "part";
-    private static final String SEARCH_QUERY = "search_query";
 
     private ArrayList<Country> mListCountries = new ArrayList<>();
     private CountriesAdapter mAdapter;
     private String mEarthPart;
-    private String mCurrentSearchQuery;
     private RecyclerView mRecyclerView;
 
-    public static final RepresentationFragment newInstance(String pEarthPart) {
+    public static final @NonNull RepresentationFragment newInstance(String pEarthPart) {
         RepresentationFragment fragment = new RepresentationFragment();
         Bundle args = new Bundle();
         args.putString(EARTH_PART, pEarthPart);
@@ -69,11 +68,10 @@ public class RepresentationFragment extends Fragment {
         else
             mEarthPart = "all";
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && !savedInstanceState.getParcelableArrayList(RESTORE_KEY).isEmpty())
             savedInstanceState.getParcelableArrayList(RESTORE_KEY);
-            mCurrentSearchQuery = savedInstanceState.getString(RESTORE_KEY);
-        } else
-            getCountriesList();
+        else
+            getCountriesListByRegion();
 
         mAdapter = new CountriesAdapter(getActivity());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_fragment);
@@ -107,7 +105,6 @@ public class RepresentationFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mCurrentSearchQuery = newText;
                 mAdapter.getFilter().filter(newText);
                 return true;
             }
@@ -116,32 +113,54 @@ public class RepresentationFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState( Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         savedInstanceState.putParcelableArrayList(RESTORE_KEY, mListCountries);
-        savedInstanceState.putString(SEARCH_QUERY, mCurrentSearchQuery);
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    private void getCountriesList() {
+    private void getCountriesListByRegion() {
         CountryService service = ServiceFactory.createRetrofitService(CountryService.class, CountryService.SERVICE_ENDPOINT);
-        service.getCountriesByRegion("europe")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Country>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        if (!mEarthPart.equals("all")){
+            service.getCountriesByRegion(mEarthPart.toLowerCase())
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<Country>>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("Country Demo", e.getMessage());
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("Country Demo", e.getMessage());
+                        }
 
-                    @Override
-                    public void onNext(List<Country> countries) {
-                        mListCountries = (ArrayList) countries;
-                        mAdapter.addData(countries);
-                    }
-                });
+                        @Override
+                        public void onNext(List<Country> countries) {
+                            mListCountries = (ArrayList) countries;
+                            mAdapter.addData(countries);
+                        }
+                    });
+    }
+        else {
+            service.getAllCountries()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<Country>>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("Country Demo", e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(List<Country> countries) {
+                            mListCountries = (ArrayList) countries;
+                            mAdapter.addData(countries);
+                        }
+                    });
+        }
     }
 }

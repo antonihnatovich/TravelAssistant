@@ -1,6 +1,7 @@
 package com.example.yoant.travelassistant.adapters.recycler_view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import com.example.yoant.travelassistant.models.Country;
 import com.example.yoant.travelassistant.svg_loader.SvgDecoder;
 import com.example.yoant.travelassistant.svg_loader.SvgDrawableTranscoder;
 import com.example.yoant.travelassistant.svg_loader.SvgSoftwareLayerSetter;
+import com.example.yoant.travelassistant.ui.activities.CountryActivity;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -55,7 +57,6 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .sourceEncoder(new StreamEncoder())
                 .cacheDecoder(new FileToStreamDecoder<SVG>(new SvgDecoder()))
                 .decoder(new SvgDecoder())
-                .placeholder(R.drawable.ic_menu_camera)
                 .error(R.drawable.ic_error)
                 .animate(android.R.anim.fade_in)
                 .listener(new SvgSoftwareLayerSetter<Uri>());
@@ -130,12 +131,19 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView textView;
         public TextView textViewCapital;
         public ImageView imageView;
+        public Intent intent = new Intent(mContext, CountryActivity.class);
 
         public CountryViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.country_name);
             textViewCapital = (TextView) itemView.findViewById(R.id.country_capital);
             imageView = (ImageView) itemView.findViewById(R.id.country_image);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }

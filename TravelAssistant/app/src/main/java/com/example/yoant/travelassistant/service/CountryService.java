@@ -26,4 +26,6 @@ public interface CountryService {
     @GET("/alpha/{code}")
     Observable<List<Country>> getCountryBy2or3LetterCode(@Path("code") String code);
 
+    @GET("/all")
+    Observable<List<Country>> getAllCountries();
 }

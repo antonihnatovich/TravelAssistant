@@ -9,7 +9,7 @@ import com.example.yoant.travelassistant.ui.fragments.RepresentationFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    private static int COUNT = 6;
+    private static final int COUNT = 6;
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -23,7 +23,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new RepresentationFragment().newInstance("africa");
             case 2:
-                return new RepresentationFragment().newInstance("america");
+                return new RepresentationFragment().newInstance("americas");
             case 3:
                 return new RepresentationFragment().newInstance("asia");
             case 4:
@@ -46,7 +46,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return "Africa";
             case 2:
-                return "America";
+                return "Americas";
             case 3:
                 return "Asia";
             case 4:

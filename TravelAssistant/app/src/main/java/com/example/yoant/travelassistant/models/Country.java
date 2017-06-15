@@ -20,8 +20,10 @@ public class Country implements Parcelable{
     private int population;
     private double area;
     private int numericCode;
-    private List<Integer> callingCodes = new ArrayList<>();
+    private List<String> callingCodes = new ArrayList<>();
     private String flag;
+
+
     private List<String> borders = new ArrayList<>();
     private List<String> timezones = new ArrayList<>();
     private List<String> topLevelDomain = new ArrayList<>();
@@ -51,7 +53,7 @@ public class Country implements Parcelable{
 
     public Country(){}
 
-    public Country(String alpha2Code, String alpha3Code, String name, String nativeName, List<String> altSpellings, String capital, String demonym, String region, String subregion, int population, double area, int numericCode, List<Integer> callingCodes, String flag, List<String> borders, List<String> timezones, List<String> topLevelDomain, List<Currencies> currencies, List<Languages> languages, List<RegionalBlocks> regionalBlocks, Translations translations) {
+    public Country(String alpha2Code, String alpha3Code, String name, String nativeName, List<String> altSpellings, String capital, String demonym, String region, String subregion, int population, double area, int numericCode, List<String> callingCodes, String flag, List<String> borders, List<String> timezones, List<String> topLevelDomain, List<Currencies> currencies, List<Languages> languages, List<RegionalBlocks> regionalBlocks, Translations translations) {
         this.alpha2Code = alpha2Code;
         this.alpha3Code = alpha3Code;
         this.name = name;
@@ -66,6 +68,7 @@ public class Country implements Parcelable{
         this.numericCode = numericCode;
         this.callingCodes = callingCodes;
         this.flag = flag;
+
         this.borders = borders;
         this.timezones = timezones;
         this.topLevelDomain = topLevelDomain;
@@ -160,7 +163,7 @@ public class Country implements Parcelable{
         return numericCode;
     }
 
-    public List<Integer> getCallingCodes() {
+    public List<String> getCallingCodes() {
         return callingCodes;
     }
 

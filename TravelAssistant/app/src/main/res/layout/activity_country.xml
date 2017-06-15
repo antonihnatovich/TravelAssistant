@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yoant.travelassistant.ui.activities.CountryActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+        <ImageView
+            android:id="@+id/country_imageview_flag_source"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:scaleType="centerCrop"
+            app:srcCompat = "@drawable/ic_blr"/>
+
+        <TextView
+            style="@style/country_information_main_text"
+            android:id="@+id/country_textview_country_region"
+            android:text="Europe, Eastern Europe"
+            android:layout_below="@id/country_imageview_flag_source" />
+
+        <TextView
+            style="@style/country_information_label"
+            android:id="@+id/country_textview_country_region_label"
+            android:text="Region"
+            android:layout_below="@id/country_textview_country_region"/>
+
+        <TextView
+            style="@style/country_information_main_text"
+            android:id="@+id/country_textview_country_name"
+            android:text="Belarus"
+            android:layout_below="@id/country_textview_country_region_label" />
+
+        <TextView
+            style="@style/country_information_label"
+            android:id="@+id/country_textview_country_name_label"
+            android:text="Country"
+            android:layout_below="@id/country_textview_country_name"/>
+
+        <TextView
+            style="@style/country_information_main_text"
+            android:id="@+id/country_textview_country_capital"
+            android:text="Minsk"
+            android:layout_below="@id/country_textview_country_name_label" />
+
+        <TextView
+            style="@style/country_information_label"
+            android:id="@+id/country_textview_country_capital_label"
+            android:text="Capital"
+            android:layout_below="@id/country_textview_country_capital"/>
+
+        <TextView
+            style="@style/country_information_main_text"
+            android:id="@+id/country_textview_country_population"
+            android:text="9498700"
+            android:layout_below="@id/country_textview_country_capital_label" />
+
+        <TextView
+            style="@style/country_information_label"
+            android:id="@+id/country_textview_country_population_label"
+            android:text="Population"
+            android:layout_below="@id/country_textview_country_population"/>
+
+        <TextView
+            style="@style/country_information_main_text"
+            android:id="@+id/country_textview_country_area"
+            android:text="207600.0"
+            android:layout_below="@id/country_textview_country_population_label" />
+
+        <TextView
+            style="@style/country_information_label"
+            android:id="@+id/country_textview_country_area_label"
+            android:text="Area"
+            android:layout_below="@id/country_textview_country_area"/>
+
+        <TextView
+            style="@style/country_information_main_text"
+            android:id="@+id/country_textview_country_languages"
+            android:text="Belarusian, Russian"
+            android:layout_below="@id/country_textview_country_area_label" />
+
+        <TextView
+            style="@style/country_information_label"
+            android:id="@+id/country_textview_country_languages_label"
+            android:text="Languages"
+            android:layout_below="@id/country_textview_country_languages"/>
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
