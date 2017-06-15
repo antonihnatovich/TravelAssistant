@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_regions"
+            android:title="Regions">
+            <menu>
+                <item
+                    android:id="@+id/nav_world"
+                    android:icon="@drawable/ic_world"
+                    android:title="World" />
+
+                <item
+                    android:id="@+id/nav_africa"
+                    android:icon="@drawable/ic_africa"
+                    android:title="Africa" />
+                <item
+                    android:id="@+id/nav_america"
+                    android:icon="@drawable/ic_america"
+                    android:title="America" />
+                <item
+                    android:id="@+id/nav_asia"
+                    android:icon="@drawable/asia"
+                    android:title="Asia" />
+                <item
+                    android:id="@+id/nav_eurpope"
+                    android:icon="@drawable/europe"
+                    android:title="Europe" />
+                <item
+                    android:id="@+id/nav_oceania"
+                    android:icon="@drawable/oceania"
+                    android:title="Oceania" />
+            </menu>
+        </item>
+        <item
+            android:id="@+id/additional"
+            android:title="Application">
+            <menu>
+                <item
+                    android:id="@+id/nav_about"
+                    android:title="Program creator" />
+                <item
+                    android:id="@+id/nav_exit"
+                    android:title="Exit" />
+            </menu>
+        </item>
+    </group>
+
+</menu>

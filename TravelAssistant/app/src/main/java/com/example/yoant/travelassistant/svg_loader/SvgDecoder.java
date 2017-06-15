@@ -9,10 +9,6 @@ import com.caverock.androidsvg.SVGParseException;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by Antonio on 12.06.2017.
- */
-
 public class SvgDecoder implements ResourceDecoder<InputStream, SVG> {
     public Resource<SVG> decode(InputStream source, int width, int height) throws IOException {
         try {
@@ -25,6 +21,6 @@ public class SvgDecoder implements ResourceDecoder<InputStream, SVG> {
 
     @Override
     public String getId() {
-        return "SvgDecoder.com.bumptech.svgsample.app";
+        return "";
     }
 }

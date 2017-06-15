@@ -2,20 +2,27 @@ package com.example.yoant.travelassistant.ui.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yoant.travelassistant.R;
-import com.example.yoant.travelassistant.adapters.CountriesAdapter;
+import com.example.yoant.travelassistant.adapters.recycler_view.CountriesAdapter;
 import com.example.yoant.travelassistant.models.Country;
 import com.example.yoant.travelassistant.service.CountryService;
 import com.example.yoant.travelassistant.service.ServiceFactory;
+import com.example.yoant.travelassistant.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,37 +34,91 @@ import rx.schedulers.Schedulers;
 public class RepresentationFragment extends Fragment {
 
     private static final String RESTORE_KEY = "countries";
+    private static final String EARTH_PART = "part";
+    private static final String SEARCH_QUERY = "search_query";
 
     private ArrayList<Country> mListCountries = new ArrayList<>();
     private CountriesAdapter mAdapter;
+    private String mEarthPart;
+    private String mCurrentSearchQuery;
+    private RecyclerView mRecyclerView;
+
+    public static final RepresentationFragment newInstance(String pEarthPart) {
+        RepresentationFragment fragment = new RepresentationFragment();
+        Bundle args = new Bundle();
+        args.putString(EARTH_PART, pEarthPart);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_representation, container, false);
-
-        if(savedInstanceState != null)
-            savedInstanceState.getParcelableArrayList(RESTORE_KEY);
-        else
-            getCountriesList();
-
         setRetainInstance(true);
 
+        if (getArguments() != null)
+            mEarthPart = getArguments().getString(EARTH_PART);
+        else
+            mEarthPart = "all";
+
+        if (savedInstanceState != null) {
+            savedInstanceState.getParcelableArrayList(RESTORE_KEY);
+            mCurrentSearchQuery = savedInstanceState.getString(RESTORE_KEY);
+        } else
+            getCountriesList();
+
         mAdapter = new CountriesAdapter(getActivity());
-        RecyclerView mRecyclerView; mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_fragment);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_fragment);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState){
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity(),
                 DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.addData(mListCountries);
-
-        return view;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main3, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.toolbar_search1);
+        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+        MenuItemCompat.setActionView(menuItem, searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mCurrentSearchQuery = newText;
+                mAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onSaveInstanceState( Bundle savedInstanceState) {
         savedInstanceState.putParcelableArrayList(RESTORE_KEY, mListCountries);
+        savedInstanceState.putString(SEARCH_QUERY, mCurrentSearchQuery);
         super.onSaveInstanceState(savedInstanceState);
     }
 
