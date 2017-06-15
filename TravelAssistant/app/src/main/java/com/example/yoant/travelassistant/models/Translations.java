@@ -94,4 +94,9 @@ public class Translations implements Parcelable {
         parcel.writeString(br);
         parcel.writeString(pt);
     }
+
+    @Override
+    public String toString(){
+        return de + ", " + es + ", " + fr + ", " + it + ", " + br + ", " + pt;
+    }
 }

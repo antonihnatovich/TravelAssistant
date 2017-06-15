@@ -37,6 +37,8 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<Country> mCountries;
     private List<Country> mCountriesFiltered;
     private Context mContext;
+
+    public Intent intent;
     private GenericRequestBuilder<Uri, InputStream, SVG, PictureDrawable> requestBuilder;
 
     public CountriesAdapter(ArrayList<Country> pCountries) {
@@ -48,6 +50,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         super();
         mContext = pContext;
         mCountries = new ArrayList<>();
+        intent = new Intent(mContext, CountryActivity.class);
         mCountriesFiltered = new ArrayList<>();
         requestBuilder = Glide.with(mContext)
                 .using(Glide.buildStreamModelLoader(Uri.class, mContext), InputStream.class)
@@ -84,13 +87,22 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder pHolder, int position) {
         CountryViewHolder hholder = (CountryViewHolder) pHolder;
-        Country country = mCountriesFiltered.get(position);
+        final Country country = mCountriesFiltered.get(position);
         Log.d("Loading image : = ", country.getFlag());
         requestBuilder.diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .load(Uri.parse(country.getFlag()))
                 .into(hholder.imageView);
         hholder.textView.setText(country.getName());
         hholder.textViewCapital.setText(country.getCapital());
+        hholder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String toPut = country.getAlpha3Code().isEmpty()? country.getAlpha2Code() : country.getAlpha3Code();
+                intent.putExtra("code", toPut);
+                intent.putExtra("country", country.getName());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -131,19 +143,13 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView textView;
         public TextView textViewCapital;
         public ImageView imageView;
-        public Intent intent = new Intent(mContext, CountryActivity.class);
 
-        public CountryViewHolder(View itemView) {
+        public CountryViewHolder(final View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.country_name);
             textViewCapital = (TextView) itemView.findViewById(R.id.country_capital);
             imageView = (ImageView) itemView.findViewById(R.id.country_image);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mContext.startActivity(intent);
-                }
-            });
+
         }
     }
 }

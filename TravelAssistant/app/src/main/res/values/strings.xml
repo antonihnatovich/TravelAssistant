@@ -6,4 +6,17 @@
     <string name="email_contact">tf.2.98@mail.ru</string>
     <string name="country_representation_image_text">country image</string>
     <string name="title_activity_main3">Travel Assistant</string>
+
+    <!-- Labels of the country information activity. -->
+    <string name="region">Region</string>
+    <string name="country">Country</string>
+    <string name="capital">Capital</string>
+    <string name="population">Population</string>
+    <string name="area">Area</string>
+    <string name="languages">Languages</string>
+    <string name="currencies">Currencies</string>
+    <string name="domains">Domains</string>
+    <string name="calling">Calling codes</string>
+    <!-- Labels of the country information activity. -->
+
 </resources>

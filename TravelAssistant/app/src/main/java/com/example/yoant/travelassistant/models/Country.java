@@ -13,7 +13,7 @@ public class Country implements Parcelable{
     private String name;
     private String nativeName;
     private List<String> altSpellings = new ArrayList<>();
-    private String capital;
+    private String capital = "No capital for this country";
     private String demonym;
     private String region;
     private String subregion;

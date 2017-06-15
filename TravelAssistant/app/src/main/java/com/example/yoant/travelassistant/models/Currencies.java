@@ -58,4 +58,9 @@ public class Currencies implements Parcelable{
         parcel.writeString(name);
         parcel.writeString(symbol);
     }
+
+    @Override
+    public String toString(){
+        return code + " - " + symbol;
+    }
 }

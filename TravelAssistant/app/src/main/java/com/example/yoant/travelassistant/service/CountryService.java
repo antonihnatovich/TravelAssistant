@@ -23,7 +23,7 @@ public interface CountryService {
     @GET("/capital/{capital}")
     Observable<List<Country>> getCountryByCapital(@Path("capital") String capital);
 
-    @GET("/alpha/{code}")
+    @GET("/alpha/alb")
     Observable<List<Country>> getCountryBy2or3LetterCode(@Path("code") String code);
 
     @GET("/all")
