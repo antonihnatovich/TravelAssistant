@@ -1,4 +1,4 @@
-package com.example.yoant.travelassistant.svg_loader;
+package com.example.yoant.travelassistant.helper.svg_loader;
 
 import com.bumptech.glide.load.ResourceDecoder;
 import com.bumptech.glide.load.engine.Resource;
@@ -21,6 +21,7 @@ public class SvgDecoder implements ResourceDecoder<InputStream, SVG> {
 
     @Override
     public String getId() {
-        return "";
+        return "id";
     }
+
 }

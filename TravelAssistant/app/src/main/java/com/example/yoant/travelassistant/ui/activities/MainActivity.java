@@ -1,6 +1,7 @@
 package com.example.yoant.travelassistant.ui.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -14,18 +15,31 @@ import android.view.MenuItem;
 
 import com.example.yoant.travelassistant.R;
 import com.example.yoant.travelassistant.adapters.view_pager.ViewPagerAdapter;
+import com.example.yoant.travelassistant.database.AppDatabase;
+import com.example.yoant.travelassistant.database.DatabaseInitializer;
+import com.example.yoant.travelassistant.helper.constants.ViewConstant;
+import com.example.yoant.travelassistant.models.CountriesReceiver;
+import com.example.yoant.travelassistant.models.Country;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private ViewPager mViewPager;
+
     private ViewPagerAdapter mViewPagerAdapter;
-    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
     private DrawerLayout mDrawer;
+    private TabLayout mTabLayout;
+    private ArrayList<Country> mListCountries = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
+        DatabaseInitializer.deleteDataFromDatabase(AppDatabase.getInMemoryDatabase(getApplicationContext()), new CountriesReceiver("test_json"));
+
+        mListCountries = getIntent().getParcelableArrayListExtra(ViewConstant.RESTORE_COUNTRIES_LIST);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -55,7 +69,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -76,5 +89,15 @@ public class MainActivity extends AppCompatActivity
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        savedInstanceState.putParcelableArrayList(ViewConstant.RESTORE_COUNTRIES_LIST, mListCountries);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public ArrayList<Country> sendData() {
+        return mListCountries;
     }
 }

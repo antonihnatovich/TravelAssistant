@@ -10,42 +10,34 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.yoant.travelassistant.R;
 import com.example.yoant.travelassistant.adapters.recycler_view.CountriesAdapter;
+import com.example.yoant.travelassistant.helper.constants.ViewConstant;
 import com.example.yoant.travelassistant.models.Country;
-import com.example.yoant.travelassistant.service.CountryService;
-import com.example.yoant.travelassistant.service.ServiceFactory;
 import com.example.yoant.travelassistant.ui.activities.MainActivity;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class RepresentationFragment extends Fragment {
-
-    private static final String RESTORE_KEY = "countries";
-    private static final String EARTH_PART = "part";
 
     private ArrayList<Country> mListCountries = new ArrayList<>();
     private CountriesAdapter mAdapter;
     private String mEarthPart;
-    private RecyclerView mRecyclerView;
 
-    public static final @NonNull RepresentationFragment newInstance(String pEarthPart) {
+    public static
+    @NonNull
+    RepresentationFragment newInstance(String pEarthPart) {
         RepresentationFragment fragment = new RepresentationFragment();
         Bundle args = new Bundle();
-        args.putString(EARTH_PART, pEarthPart);
+        args.putString(ViewConstant.COUNTRY_EARTH_PART, pEarthPart);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,33 +51,32 @@ public class RepresentationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_representation, container, false);
-        setRetainInstance(true);
-
-        if (getArguments() != null)
-            mEarthPart = getArguments().getString(EARTH_PART);
-        else
-            mEarthPart = "all";
-
-        if (savedInstanceState != null && !savedInstanceState.getParcelableArrayList(RESTORE_KEY).isEmpty())
-            savedInstanceState.getParcelableArrayList(RESTORE_KEY);
-        else
-            getCountriesListByRegion();
-
-        mAdapter = new CountriesAdapter(getActivity());
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_fragment);
         return view;
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState){
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+        setRetainInstance(true);
+
+        if (getArguments() != null)
+            mEarthPart = getArguments().getString(ViewConstant.COUNTRY_EARTH_PART);
+        else
+            mEarthPart = "all";
+
+        setTheData();
+
+        mAdapter = new CountriesAdapter(getActivity());
+        mAdapter.addData(mListCountries);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_fragment);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity(),
                 DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.addData(mListCountries);
     }
 
     @Override
@@ -112,55 +103,14 @@ public class RepresentationFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        savedInstanceState.putParcelableArrayList(RESTORE_KEY, mListCountries);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    private void getCountriesListByRegion() {
-        CountryService service = ServiceFactory.createRetrofitService(CountryService.class, CountryService.SERVICE_ENDPOINT);
-        if (!mEarthPart.equals("all")){
-            service.getCountriesByRegion(mEarthPart.toLowerCase())
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<List<Country>>() {
-                        @Override
-                        public void onCompleted() {
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e("Country Demo", e.getMessage());
-                        }
-
-                        @Override
-                        public void onNext(List<Country> countries) {
-                            mListCountries = (ArrayList) countries;
-                            mAdapter.addData(countries);
-                        }
-                    });
-    }
-        else {
-            service.getAllCountries()
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<List<Country>>() {
-                        @Override
-                        public void onCompleted() {
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e("Country Demo", e.getMessage());
-                        }
-
-                        @Override
-                        public void onNext(List<Country> countries) {
-                            mListCountries = (ArrayList) countries;
-                            mAdapter.addData(countries);
-                        }
-                    });
+    private void setTheData() {
+        ArrayList<Country> countryList = ((MainActivity) getActivity()).sendData();
+        if (mEarthPart.toLowerCase().equals("all")) {
+            mListCountries = countryList;
+            return;
         }
+        for (Country country : countryList)
+            if (country.getRegion().toLowerCase().equals(mEarthPart.toLowerCase()))
+                mListCountries.add(country);
     }
 }

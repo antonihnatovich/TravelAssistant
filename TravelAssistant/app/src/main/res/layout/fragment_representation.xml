@@ -1,8 +1,14 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.yoant.travelassistant.ui.fragments.RepresentationFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_fragment"
@@ -10,4 +16,4 @@
         android:layout_height="match_parent"
         />
 
-</FrameLayout>
+</RelativeLayout>

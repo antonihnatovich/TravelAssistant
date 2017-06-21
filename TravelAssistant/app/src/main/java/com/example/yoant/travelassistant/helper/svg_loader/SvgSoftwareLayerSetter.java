@@ -1,4 +1,4 @@
-package com.example.yoant.travelassistant.svg_loader;
+package com.example.yoant.travelassistant.helper.svg_loader;
 
 import android.annotation.TargetApi;
 import android.graphics.drawable.PictureDrawable;

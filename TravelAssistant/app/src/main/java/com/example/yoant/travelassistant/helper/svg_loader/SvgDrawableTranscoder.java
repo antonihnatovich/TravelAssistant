@@ -1,4 +1,4 @@
-package com.example.yoant.travelassistant.svg_loader;
+package com.example.yoant.travelassistant.helper.svg_loader;
 
 import android.graphics.Picture;
 import android.graphics.drawable.PictureDrawable;
@@ -20,6 +20,7 @@ public class SvgDrawableTranscoder implements ResourceTranscoder<SVG, PictureDra
 
     @Override
     public String getId() {
-        return "";
+        return "id";
     }
+
 }

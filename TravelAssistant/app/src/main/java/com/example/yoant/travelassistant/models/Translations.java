@@ -3,8 +3,6 @@ package com.example.yoant.travelassistant.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Translations implements Parcelable {
 
     private String de;
@@ -96,7 +94,7 @@ public class Translations implements Parcelable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return de + ", " + es + ", " + fr + ", " + it + ", " + br + ", " + pt;
     }
 }

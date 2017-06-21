@@ -13,10 +13,14 @@
     <string name="capital">Capital</string>
     <string name="population">Population</string>
     <string name="area">Area</string>
-    <string name="languages">Languages</string>
+    <string name="languages">Language(s)</string>
     <string name="currencies">Currencies</string>
-    <string name="domains">Domains</string>
-    <string name="calling">Calling codes</string>
+    <string name="domains">Domain(s)</string>
+    <string name="calling">Calling code(s)</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- Labels of the country information activity. -->
 
 </resources>

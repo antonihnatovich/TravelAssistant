@@ -3,7 +3,7 @@ package com.example.yoant.travelassistant.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Currencies implements Parcelable{
+public class Currencies implements Parcelable {
 
     private String code;
     private String name;
@@ -15,7 +15,8 @@ public class Currencies implements Parcelable{
         symbol = in.readString();
     }
 
-    public Currencies(){}
+    public Currencies() {
+    }
 
     public Currencies(String code, String name, String symbol) {
         this.code = code;
@@ -60,7 +61,7 @@ public class Currencies implements Parcelable{
     }
 
     @Override
-    public String toString(){
-        return code + " - " + symbol;
+    public String toString() {
+        return code + (symbol == null ? "" : " - " + symbol);
     }
 }

@@ -4,8 +4,8 @@ import com.example.yoant.travelassistant.models.Country;
 
 import java.util.List;
 
-import retrofit.http.Path;
 import retrofit.http.GET;
+import retrofit.http.Path;
 import rx.Observable;
 
 public interface CountryService {

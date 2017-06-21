@@ -17,8 +17,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
-            case 0 :
+        switch (position) {
+            case 0:
                 return new RepresentationFragment().newInstance("all");
             case 1:
                 return new RepresentationFragment().newInstance("africa");
@@ -39,8 +39,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public CharSequence getPageTitle(int position){
-        switch (position){
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
             case 0:
                 return "All";
             case 1:

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,11 @@ import com.bumptech.glide.load.model.StreamEncoder;
 import com.bumptech.glide.load.resource.file.FileToStreamDecoder;
 import com.caverock.androidsvg.SVG;
 import com.example.yoant.travelassistant.R;
+import com.example.yoant.travelassistant.helper.constants.ViewConstant;
+import com.example.yoant.travelassistant.helper.svg_loader.SvgDecoder;
+import com.example.yoant.travelassistant.helper.svg_loader.SvgDrawableTranscoder;
+import com.example.yoant.travelassistant.helper.svg_loader.SvgSoftwareLayerSetter;
 import com.example.yoant.travelassistant.models.Country;
-import com.example.yoant.travelassistant.svg_loader.SvgDecoder;
-import com.example.yoant.travelassistant.svg_loader.SvgDrawableTranscoder;
-import com.example.yoant.travelassistant.svg_loader.SvgSoftwareLayerSetter;
 import com.example.yoant.travelassistant.ui.activities.CountryActivity;
 
 import java.io.InputStream;
@@ -38,13 +38,8 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<Country> mCountriesFiltered;
     private Context mContext;
 
-    public Intent intent;
+    private Intent intent;
     private GenericRequestBuilder<Uri, InputStream, SVG, PictureDrawable> requestBuilder;
-
-    public CountriesAdapter(ArrayList<Country> pCountries) {
-        mCountries = pCountries;
-        mCountriesFiltered = pCountries;
-    }
 
     public CountriesAdapter(Context pContext) {
         super();
@@ -58,7 +53,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .as(SVG.class)
                 .transcode(new SvgDrawableTranscoder(), PictureDrawable.class)
                 .sourceEncoder(new StreamEncoder())
-                .cacheDecoder(new FileToStreamDecoder<SVG>(new SvgDecoder()))
+                .cacheDecoder(new FileToStreamDecoder<>(new SvgDecoder()))
                 .decoder(new SvgDecoder())
                 .error(R.drawable.ic_error)
                 .animate(android.R.anim.fade_in)
@@ -73,11 +68,6 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public void clear() {
-        mCountries.clear();
-        notifyDataSetChanged();
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.country_representation, parent, false);
@@ -86,20 +76,21 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder pHolder, int position) {
-        CountryViewHolder hholder = (CountryViewHolder) pHolder;
+        CountryViewHolder mHolder = (CountryViewHolder) pHolder;
         final Country country = mCountriesFiltered.get(position);
-        Log.d("Loading image : = ", country.getFlag());
+        //Log.d("Loading image : = ", country.getFlag());
         requestBuilder.diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .load(Uri.parse(country.getFlag()))
-                .into(hholder.imageView);
-        hholder.textView.setText(country.getName());
-        hholder.textViewCapital.setText(country.getCapital());
-        hholder.itemView.setOnClickListener(new View.OnClickListener() {
+                .into(mHolder.imageView);
+        mHolder.textView.setText(country.getName());
+        mHolder.textViewCapital.setText(country.getCapital());
+        mHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String toPut = country.getAlpha3Code().isEmpty()? country.getAlpha2Code() : country.getAlpha3Code();
-                intent.putExtra("code", toPut);
-                intent.putExtra("country", country.getName());
+                String toPut = country.getAlpha3Code().isEmpty() ? country.getAlpha2Code() : country.getAlpha3Code();
+                intent.putExtra(ViewConstant.COUNTRY_DETAIL_CODE, toPut);
+                intent.putExtra(ViewConstant.COUNTRY_DETAIL_COUNTRY, country.getName());
+                intent.putExtra(ViewConstant.RESTORE_OBJECT_INTENT, country);
                 mContext.startActivity(intent);
             }
         });
@@ -138,18 +129,17 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         };
     }
 
-    public class CountryViewHolder extends RecyclerView.ViewHolder {
+    private class CountryViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textView;
-        public TextView textViewCapital;
-        public ImageView imageView;
+        TextView textView;
+        TextView textViewCapital;
+        ImageView imageView;
 
-        public CountryViewHolder(final View itemView) {
+        CountryViewHolder(final View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.country_name);
             textViewCapital = (TextView) itemView.findViewById(R.id.country_capital);
             imageView = (ImageView) itemView.findViewById(R.id.country_image);
-
         }
     }
 }

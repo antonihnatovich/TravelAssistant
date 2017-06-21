@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Country implements Parcelable{
+public class Country implements Parcelable {
 
     private String alpha2Code;
     private String alpha3Code;
@@ -22,7 +22,6 @@ public class Country implements Parcelable{
     private int numericCode;
     private List<String> callingCodes = new ArrayList<>();
     private String flag;
-
 
     private List<String> borders = new ArrayList<>();
     private List<String> timezones = new ArrayList<>();
@@ -51,7 +50,8 @@ public class Country implements Parcelable{
         topLevelDomain = in.createStringArrayList();
     }
 
-    public Country(){}
+    public Country() {
+    }
 
     public Country(String alpha2Code, String alpha3Code, String name, String nativeName, List<String> altSpellings, String capital, String demonym, String region, String subregion, int population, double area, int numericCode, List<String> callingCodes, String flag, List<String> borders, List<String> timezones, List<String> topLevelDomain, List<Currencies> currencies, List<Languages> languages, List<RegionalBlocks> regionalBlocks, Translations translations) {
         this.alpha2Code = alpha2Code;
@@ -200,7 +200,7 @@ public class Country implements Parcelable{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "";
     }
 }

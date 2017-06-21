@@ -17,6 +17,7 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_error"
         android:scaleType="centerInside"
         android:contentDescription="@string/country_representation_image_text"/>
 
